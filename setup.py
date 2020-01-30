@@ -16,7 +16,6 @@ setup(
       ],
   classifiers=[
     'Development Status :: 4 - Beta',      
-    'Intended Audience :: Data Scientists',      
     'Topic :: Software Development :: Build Tools',
     'License :: OSI Approved :: MIT License',   
   ],
