@@ -3,13 +3,13 @@ from distutils.core import setup
 setup(
   name = 'nbeats_forecast',        
   packages = ['nbeats_forecast'],   
-  version = '1.0',     
+  version = '1.3',     
   license='MIT',        
   description = 'TYPE YOUR DESCRIPTION HERE',   
   author = 'Amitesh Sharma',                   
   author_email = 'amitesh863@gmail.com',     
   url = 'https://github.com/amitesh863/nbeats',   
-  download_url = 'https://github.com/amitesh863/nbeats_forecast/archive/v_10.tar.gz',    
+  download_url = 'https://github.com/amitesh863/nbeats_forecast/archive/v_13.tar.gz',    
   keywords = ['nbeats', 'timeseries', 'forecast', 'nueral beats' , 'univariate timeseries forecast' , 'timeseries forecast', 'univariate timeseries forecast'],   
   install_requires=[
           'nbeats-pytorch',
