@@ -10,7 +10,7 @@ setup(
   author_email = 'amitesh863@gmail.com',     
   url = 'https://github.com/amitesh863/nbeats',   
   download_url = 'https://github.com/amitesh863/nbeats_forecast/archive/v_10.tar.gz',    
-  keywords = ['nbeats', 'timeseries', 'forecast', 'nueral beats' , 'univariate timeseries forecast , 'timeseries forecast', 'univariate timeseries forecast'],   
+  keywords = ['nbeats', 'timeseries', 'forecast', 'nueral beats' , 'univariate timeseries forecast' , 'timeseries forecast', 'univariate timeseries forecast'],   
   install_requires=[
           'nbeats-pytorch',
       ],
