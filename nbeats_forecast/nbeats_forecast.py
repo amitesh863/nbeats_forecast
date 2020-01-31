@@ -85,9 +85,6 @@ class NBeats:   #UNIVARIATE DATA TO BE PASSED AS NUMPY ARRAY
             model.load_state_dict(checkpoint['model_state_dict'])
             optimiser.load_state_dict(checkpoint['optimizer_state_dict'])
             grad_step = checkpoint['grad_step']
-            if self.verbose:
-                pass
-                #print(f'Restored checkpoint from {self.CHECKPOINT_NAME}.')
             return grad_step
         return 0
     
@@ -99,12 +96,16 @@ class NBeats:   #UNIVARIATE DATA TO BE PASSED AS NUMPY ARRAY
         }, self.CHECKPOINT_NAME) 
     
     
-    def load(self,file=None):
+    def load(self,file=None,optimiser=None):
          if file==None:
             raise Exception('Empty File Name')
          elif file=='':
             raise Exception('Empty File Name') 
          else:
+           if optimiser==None:
+            self.optimiser = optim.Adam(self.net.parameters())
+           else:
+            self.optimiser = optimiser
             self.CHECKPOINT_NAME=file
             self.global_step_cl=self.loader(self.net,self.optimiser)
         
