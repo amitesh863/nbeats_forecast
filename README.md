@@ -98,7 +98,7 @@ If predict_data is not passed, forecasted values returned will be continued from
 
 ### UPDATE:
 ##### Added functionality:
-##### Predicting for other data.
+##### Predicting for other data
 
 Passing predict_data:
 
