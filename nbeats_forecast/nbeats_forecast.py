@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jan 28 13:51:10 2020
-
-@author: amitesh863
-"""
-
 import os
 import matplotlib.pyplot as plt
 import torch
@@ -20,13 +12,12 @@ from nbeats_pytorch.model import NBeatsNet
 
 class NBeats:   #UNIVARIATE DATA TO BE PASSED AS NUMPY ARRAY
     def __init__(self,data,period_to_forecast, backcast_length=None,save_checkpoint=False,path='',checkpoint_file_name='nbeats-training-checkpoint.th',mode='cpu',batch_size=None,thetas_dims=[7, 8],nb_blocks_per_stack=3,share_weights_in_stack=False,train_percent=0.8,hidden_layer_units=128,stack=None):
+ 
         self.data=data
         if(len(self.data.shape)!=2):
-            raise Exception('Numpy array ta should be of nx1 shape')
+            raise Exception('Numpy array should be of nx1 shape')
         if self.data.shape[1]!=1:
             raise Exception('Numpy array should be of nx1 shape')
-        
-            
         self.forecast_length=period_to_forecast
         if backcast_length==None:
             self.backcast_length = 3 * self.forecast_length
@@ -95,7 +86,8 @@ class NBeats:   #UNIVARIATE DATA TO BE PASSED AS NUMPY ARRAY
             optimiser.load_state_dict(checkpoint['optimizer_state_dict'])
             grad_step = checkpoint['grad_step']
             if self.verbose:
-                print(f'Restored checkpoint from {self.CHECKPOINT_NAME}.')
+                pass
+                #print(f'Restored checkpoint from {self.CHECKPOINT_NAME}.')
             return grad_step
         return 0
     
@@ -203,8 +195,20 @@ class NBeats:   #UNIVARIATE DATA TO BE PASSED AS NUMPY ARRAY
             if os.path.exists(self.CHECKPOINT_NAME):
                 os.remove(self.CHECKPOINT_NAME)
             
-    def predict(self):
-        _, forecasted_values = self.net(torch.tensor(self.x_forecast, dtype=torch.float))
-        forecasted_values= forecasted_values.detach().numpy()
-        forecasted_values = forecasted_values * self.norm_constant
+    def predict(self,predict_data=None):        
+        if (predict_data is None):
+            _, forecasted_values = self.net(torch.tensor(self.x_forecast, dtype=torch.float))
+            forecasted_values= forecasted_values.detach().numpy()
+            forecasted_values = forecasted_values * self.norm_constant
+        else:
+            if (predict_data.shape[0]!=self.backcast_length):
+                raise Exception('Numpy array for prediction input should be of backcast_length: {} x 1 shape'.format(self.backcast_length))
+            else:
+                predict_data=predict_data/self.norm_constant
+                predict_data= np.reshape(predict_data, (self.backcast_length, 1)) 
+                
+                _, forecasted_values = self.net(torch.tensor(predict_data.T, dtype=torch.float))
+                forecasted_values= forecasted_values.detach().numpy()
+                forecasted_values = forecasted_values * self.norm_constant
+                
         return forecasted_values.T
