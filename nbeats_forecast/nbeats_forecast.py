@@ -11,13 +11,17 @@ from nbeats_pytorch.model import NBeatsNet
 
 
 class NBeats:   #UNIVARIATE DATA TO BE PASSED AS NUMPY ARRAY
-    def __init__(self,data,period_to_forecast, backcast_length=None,save_checkpoint=False,path='',checkpoint_file_name='nbeats-training-checkpoint.th',mode='cpu',batch_size=None,thetas_dims=[7, 8],nb_blocks_per_stack=3,share_weights_in_stack=False,train_percent=0.8,hidden_layer_units=128,stack=None):
- 
-        self.data=data
-        if(len(self.data.shape)!=2):
-            raise Exception('Numpy array should be of nx1 shape')
-        if self.data.shape[1]!=1:
-            raise Exception('Numpy array should be of nx1 shape')
+    def __init__(self,period_to_forecast,data=None, backcast_length=None,save_checkpoint=False,path='',checkpoint_file_name='nbeats-training-checkpoint.th',mode='cpu',batch_size=None,thetas_dims=[7, 8],nb_blocks_per_stack=3,share_weights_in_stack=False,train_percent=0.8,hidden_layer_units=128,stack=None):
+        if (data is None):
+            print('For Prediction as no data passed')
+            batch_size=np.nan
+        else:
+            self.data=data
+            
+            if(len(self.data.shape)!=2):
+                raise Exception('Numpy array should be of nx1 shape')
+            if self.data.shape[1]!=1:
+                raise Exception('Numpy array should be of nx1 shape')
         self.forecast_length=period_to_forecast
         if backcast_length==None:
             self.backcast_length = 3 * self.forecast_length
@@ -55,7 +59,8 @@ class NBeats:   #UNIVARIATE DATA TO BE PASSED AS NUMPY ARRAY
         self.parameters=self.net.parameters()
         self.global_step_cl=0
         self.check_save=save_checkpoint
-
+        self.loaded=False
+        self.saved=True
         
         
         
@@ -85,15 +90,25 @@ class NBeats:   #UNIVARIATE DATA TO BE PASSED AS NUMPY ARRAY
             model.load_state_dict(checkpoint['model_state_dict'])
             optimiser.load_state_dict(checkpoint['optimizer_state_dict'])
             grad_step = checkpoint['grad_step']
+            if self.loaded:
+                self.norm_constant=checkpoint['norm_constant']
             return grad_step
         return 0
     
     def saver(self,model, optimiser, grad_step):
-        torch.save({
-            'grad_step': grad_step,
-            'model_state_dict': model.state_dict(),
-            'optimizer_state_dict': optimiser.state_dict(),
-        }, self.CHECKPOINT_NAME) 
+        if self.saved:
+                 torch.save({
+                'norm_constant':self.norm_constant, 
+                'grad_step': grad_step,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimiser.state_dict(),
+            }, self.CHECKPOINT_NAME) 
+        else:            
+            torch.save({
+                'grad_step': grad_step,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimiser.state_dict(),
+            }, self.CHECKPOINT_NAME) 
     
     
     def load(self,file=None,optimiser=None):
@@ -105,9 +120,13 @@ class NBeats:   #UNIVARIATE DATA TO BE PASSED AS NUMPY ARRAY
            if optimiser==None:
             self.optimiser = optim.Adam(self.net.parameters())
            else:
-            self.optimiser = optimiser
-            self.CHECKPOINT_NAME=file
-            self.global_step_cl=self.loader(self.net,self.optimiser)
+               self.optimiser = optimiser
+           self.CHECKPOINT_NAME=file
+           self.loaded=True
+           self.global_step_cl=self.loader(self.net,self.optimiser)
+           self.CHECKPOINT_NAME='nbeats-training-checkpoint.th'
+        
+            
         
     def save(self,file=None):
         if file==None:
@@ -117,11 +136,14 @@ class NBeats:   #UNIVARIATE DATA TO BE PASSED AS NUMPY ARRAY
         else:
             self.CHECKPOINT_NAME=file
             self.saver(self.net,self.optimiser,self.global_step_cl)
+            self.saved=True
 
            
     def train_100_grad_steps(self,data, test_losses):
-        global_step = self.loader(self.net, self.optimiser)
-        self.global_step_cl=global_step
+        if not self.loaded:
+            global_step = self.loader(self.net, self.optimiser)
+            self.loaded=False
+            self.global_step_cl=global_step
         for x_train_batch, y_train_batch in data:
             self.global_step_cl += 1
             self.optimiser.zero_grad()
