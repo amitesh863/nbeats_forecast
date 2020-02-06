@@ -15,7 +15,7 @@ setup(
   author = 'Amitesh Sharma',                   
   author_email = 'amitesh863@gmail.com',     
   url = 'https://github.com/amitesh863/nbeats_forecast',   
-  download_url = 'https://github.com/amitesh863/nbeats_forecast/archive/v_131.tar.gz',    
+  download_url = 'https://github.com/amitesh863/nbeats_forecast/archive/1.3.1.tar.gz',    
   keywords = ['nbeats', 'timeseries', 'forecast', 'nueral beats' , 'univariate timeseries forecast ', 'timeseries forecast', 'univariate timeseries forecast'],   
   install_requires=[
           'nbeats-pytorch',
