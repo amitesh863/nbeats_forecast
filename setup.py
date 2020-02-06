@@ -25,4 +25,5 @@ setup(
     'Topic :: Software Development :: Build Tools',
     'License :: OSI Approved :: MIT License',   
   ],
+  python_requires='>=3.6'
 )
