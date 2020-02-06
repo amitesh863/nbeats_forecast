@@ -116,7 +116,7 @@ Returns forecasted values.
 #### save(file):
 Saves the current step model after training. File needs to be passed a string. Format of the model to be saved is .th
 
-Example: model.save('result/model.th')
+Example: model.save('model.th')
 
 #### load(file,optimizer):
 ###### Parameter - file
@@ -126,9 +126,16 @@ Load the saved model with format .th
 
 optimizer from torch.optim can be passed as a parameter by including model.parameters as the variable.
 
-Example: model.load('result/model.th')
+Example: model.load('model.th')
 
-### Example 
+## EXAMPLES BELOW
+1. Model with a different optimiser and different stack is shown here.
+2. Predicting for other data
+3. Continue training via the saved file or retrain with new data(load saved model and retrain)
+4. Load saved model and predict with data
+
+
+### Example 1
 Model with a different optimiser and different stack is shown here.
 
 Here  2: TREND_BLOCK and 3: SEASONALITY_BLOCK stacks are used.
@@ -148,7 +155,7 @@ forecast=model.predict()
 ```
 
 
-### Example
+### Example 2
 Predicting for other data with backcast_length=12.
 
 ```sh
@@ -169,7 +176,7 @@ pred=np.asarray(list1)
 forecast=model.predict(predict_data=pred)
 ```
 
-### Example
+### Example 3
 Continue training via the saved file or retrain with new data
 
 ```sh
@@ -190,7 +197,7 @@ model.fit()
 forecast=model.predict()
 ```
 
-### Example
+### Example 4
 Load saved model and predict with data
 
 ```sh
@@ -205,7 +212,5 @@ model.load(file='nbeats.th')
 list1=[36.7,38.5,39.4,36.75,38,39,38,37.45,38,39,39.5,40]
 pred=np.asarray(list1)
 forecast=model.predict(pred)
-
-
 
 ```
