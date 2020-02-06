@@ -118,8 +118,13 @@ Saves the current step model after training. File needs to be passed a string. F
 
 Example: model.save('result/model.th')
 
-#### load(file):
-Load the saved model with format .th
+#### load(file,optimizer):
+###### Parameter - file
+Load the saved model with format .th 
+
+###### Parameter - optimiser
+
+optimizer from torch.optim can be passed as a parameter by including model.parameters as the variable.
 
 Example: model.load('result/model.th')
 
@@ -177,11 +182,30 @@ data = data.values #univariate time series data of shape nx1(numpy array)
 
 model=NBeats(data=data,period_to_forecast=12,stack=[2,3],nb_blocks_per_stack=3,thetas_dims=[2,8]) 
 # use same model definition as saved model
-model.load('nbeats.th')
+model.load('nbeats.th',optimiser=optim.AdamW(model.parameters, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0.01, amsgrad=False))
+)
 model.fit()
 
 
 forecast=model.predict()
 ```
 
+### Example
+Load saved model and predict with data
 
+```sh
+from nbeats_forecast import NBeats
+import numpy as np
+
+# use same model definition as saved model
+model=NBeats(period_to_forecast=4,stack=[2,3],nb_blocks_per_stack=3,thetas_dims=[2,8]) 
+
+model.load(file='nbeats.th')
+
+list1=[36.7,38.5,39.4,36.75,38,39,38,37.45,38,39,39.5,40]
+pred=np.asarray(list1)
+forecast=model.predict(pred)
+
+
+
+```
