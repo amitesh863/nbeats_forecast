@@ -7,7 +7,7 @@ with open('README.md', encoding='utf-8') as f:
 setup(
   name = 'nbeats_forecast',        
   packages = ['nbeats_forecast'],   
-  version = '1.3.6',     
+  version = '1.3.7',     
   license='MIT',
   description="This library uses nbeats-pytorch as base and simplifies the task of univariate time series forecasting using N-BEATS by providing a interface similar to scikit-learn and keras.",
   long_description=long_description,
@@ -15,15 +15,15 @@ setup(
   author = 'Amitesh Sharma',                   
   author_email = 'amitesh863@gmail.com',     
   url = 'https://github.com/amitesh863/nbeats_forecast',   
-  download_url = 'https://github.com/amitesh863/nbeats_forecast/archive/1.3.6.tar.gz',    
+  download_url = 'https://github.com/amitesh863/nbeats_forecast/archive/1.3.7.tar.gz',    
   keywords = ['nbeats', 'timeseries', 'forecast', 'nueral beats' , 'univariate timeseries forecast ', 'timeseries forecast', 'univariate timeseries forecast'],   
   install_requires=[
-          'nbeats-pytorch',
+          "nbeats-pytorch==1.3.0",
       ],
   classifiers=[
     'Development Status :: 5 - Production/Stable',         
     'Topic :: Software Development :: Build Tools',
     'License :: OSI Approved :: MIT License',   
   ],
-  python_requires='>=3.6'
+  python_requires=">=3.6, <4"
 )
