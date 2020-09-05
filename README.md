@@ -6,7 +6,7 @@ nbeats_forecast is an end to end library for univariate time series forecasting 
 This library uses nbeats-pytorch (https://github.com/philipperemy/n-beats) as base and simplifies the task of forecasting using N-BEATS by providing a interface similar to scikit-learn and keras.
 
 
-### Required: Python >=3.6
+### Requires: Python >=3.6
 
 ### Installation
 
