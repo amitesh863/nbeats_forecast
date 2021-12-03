@@ -1,5 +1,8 @@
 # nbeats_forecast
 
+.. image:: https://static.pepy.tech/personalized-badge/nbeats-forecast?period=total&units=international_system&left_color=grey&right_color=blue&left_text=Downloads
+ :target: https://pepy.tech/project/nbeats-forecast
+
 ##### Neural Beats implementation library
 
 nbeats_forecast is an end to end library for univariate time series forecasting using N-BEATS (https://arxiv.org/pdf/1905.10437v3.pdf - Published as conference paper in ICLR).
