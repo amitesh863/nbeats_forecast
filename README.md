@@ -1,7 +1,6 @@
 # nbeats_forecast
 
-.. image:: https://static.pepy.tech/personalized-badge/nbeats-forecast?period=total&units=international_system&left_color=grey&right_color=blue&left_text=Downloads
- :target: https://pepy.tech/project/nbeats-forecast
+[![Downloads](https://static.pepy.tech/personalized-badge/nbeats-forecast?period=total&units=international_system&left_color=grey&right_color=blue&left_text=Downloads)](https://pepy.tech/project/nbeats-forecast)
 
 ##### Neural Beats implementation library
 
